@@ -30,13 +30,14 @@ const HomeScreen = () => {
 
   useEffect(() => {
     if (!disableFetch.current) {
-      disableFetch.current = false;
       dispatch(resetPageCount());
       const dateRange = {
         dateFrom,
         dateTo,
       };
       dispatch(fetchNewsList(dateRange));
+    } else {
+      disableFetch.current = false;
     }
   }, [dispatch, dateFrom, dateTo]);
 
