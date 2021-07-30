@@ -8,7 +8,7 @@ const Default_Screen_Options = ({ route, navigation }) => {
   const isVisible = route.name === 'Init' ? false : true;
   return {
     headerShown: isVisible,
-    headerTitle: 'News Headlines',
+    headerTitle: 'News',
     headerLeft: null,
     headerTintColor: '#ffffff',
     headerStyle: { backgroundColor: '#00bfbf' },
