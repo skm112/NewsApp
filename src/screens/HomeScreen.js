@@ -1,12 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   View,
   FlatList,
   StyleSheet,
   ActivityIndicator,
-  Image,
   Text,
   RefreshControl,
   Pressable,
@@ -25,37 +24,39 @@ const HomeScreen = () => {
   const [dateTo, setDateTo] = useState(initialDate);
   const dispatch = useDispatch();
   const apiStates = useSelector((state) => state.api);
-  const flatlistRef = useRef();
+  const disableFetch = useRef(false);
   const modalRefOne = useRef();
   const modalRefTwo = useRef();
 
   useEffect(() => {
-    console.log('useEffect dispatch(fetchNewsList());');
-    flatlistRef.current.s
-    dispatch(resetPageCount());
-    const dateRange = {
-      dateFrom,
-      dateTo,
-    };
-    dispatch(fetchNewsList(dateRange));
+    if (!disableFetch.current) {
+      disableFetch.current = false;
+      dispatch(resetPageCount());
+      const dateRange = {
+        dateFrom,
+        dateTo,
+      };
+      dispatch(fetchNewsList(dateRange));
+    }
   }, [dispatch, dateFrom, dateTo]);
 
   const onRefresh = () => {
+    console.log('refreshed');
+    disableFetch.current = true;
     setDateFrom(initialDate);
     setDateTo(initialDate);
     const dateRange = {
-      dateFrom,
-      dateTo,
+      dateFrom: initialDate,
+      dateTo: initialDate,
     };
     dispatch(refreshNewsList(dateRange));
-    // alert('refreshed');
   };
 
   const renderFooter = () => {
     if (!apiStates.loading) {
       return null;
     }
-    return <ActivityIndicator size="large" color="#0000ff" />;
+    return <ActivityIndicator size="large" color="#00bfbf" />;
   };
 
   const handleLoadMore = (data) => {
@@ -84,7 +85,7 @@ const HomeScreen = () => {
           alignItems: 'center',
         }}>
         <Pressable
-          style={[styles.button, styles.buttonClose, { flex: 1 }]}
+          style={[styles.button, styles.buttonFilter, { flex: 1 }]}
           onPress={() => modalRefOne.current.openModal()}>
           <Text style={[styles.textStyle, { fontSize: 14 }]}>From</Text>
           <Text style={[styles.textStyle, { fontSize: 18 }]}>
@@ -92,7 +93,7 @@ const HomeScreen = () => {
           </Text>
         </Pressable>
         <Pressable
-          style={[styles.button, styles.buttonClose, { flex: 1 }]}
+          style={[styles.button, styles.buttonFilter, { flex: 1 }]}
           onPress={() => modalRefTwo.current.openModal()}>
           <Text style={[styles.textStyle, { fontSize: 14 }]}>TO</Text>
           <Text style={[styles.textStyle, { fontSize: 18 }]}>
@@ -102,7 +103,6 @@ const HomeScreen = () => {
       </View>
 
       <FlatList
-        ref={flatlistRef}
         data={apiStates.articles}
         keyExtractor={(item, index) => index.toString()}
         ListFooterComponent={renderFooter}
@@ -143,46 +143,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
   button: {
-    // borderRadius: 20,
     paddingVertical: 5,
     paddingHorizontal: 10,
     elevation: 2,
   },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3',
+  buttonFilter: {
+    backgroundColor: '#757575',
   },
   textStyle: {
     color: 'white',
     fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
     textAlign: 'center',
   },
 });

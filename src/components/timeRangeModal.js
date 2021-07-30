@@ -37,36 +37,44 @@ class ModalDatePicker extends Component {
             Alert.alert('Modal has been closed.');
             this.setModalVisible(!modalVisible);
           }}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <DatePicker
-                maximumDate={new Date()}
-                //   androidVariant="nativeAndroid"
-                mode="date"
-                date={selectedDate}
-                onDateChange={(date) => this.setSelectedDate(date)}
-              />
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-evenly',
-                //   backgroundColor: 'yellow',
-                  alignSelf: 'stretch',
-                }}>
-                <Pressable
-                  style={[styles.button, styles.buttonOpen, { marginTop: 35 }]}
-                  onPress={() => this.selectDate(!modalVisible)}>
-                  <Text style={[styles.textStyle, { fontSize: 20 }]}>
-                    Select
-                  </Text>
-                </Pressable>
-                <Pressable
-                  style={[styles.button, styles.buttonClose, { marginTop: 35 }]}
-                  onPress={() => this.setModalVisible(!modalVisible)}>
-                  <Text style={[styles.textStyle, { fontSize: 20 }]}>
-                    Close
-                  </Text>
-                </Pressable>
+          <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <DatePicker
+                  maximumDate={new Date()}
+                  mode="date"
+                  date={selectedDate}
+                  onDateChange={(date) => this.setSelectedDate(date)}
+                />
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-evenly',
+                    alignSelf: 'stretch',
+                  }}>
+                  <Pressable
+                    style={[
+                      styles.button,
+                      styles.buttonSelect,
+                      { marginTop: 35 },
+                    ]}
+                    onPress={() => this.selectDate(!modalVisible)}>
+                    <Text style={[styles.textStyle, { fontSize: 20 }]}>
+                      Select
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    style={[
+                      styles.button,
+                      styles.buttonClose,
+                      { marginTop: 35 },
+                    ]}
+                    onPress={() => this.setModalVisible(!modalVisible)}>
+                    <Text style={[styles.textStyle, { fontSize: 20 }]}>
+                      Close
+                    </Text>
+                  </Pressable>
+                </View>
               </View>
             </View>
           </View>
@@ -104,11 +112,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     elevation: 2,
   },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
+  buttonSelect: {
+    backgroundColor: '#00bfbf',
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#757575',
   },
   textStyle: {
     color: 'white',

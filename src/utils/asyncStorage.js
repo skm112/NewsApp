@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getType } from './getType';
 export const storeDataByKey = async (key, value) => {
   try {
     const parsedValue =

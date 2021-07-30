@@ -14,7 +14,7 @@ const initialState = {
   articles: [],
   totalResults: 0,
   currentPage: 0,
-  pageSize: 50,
+  pageSize: 5,
   error: '',
 };
 import { storeDataByKey } from '../../utils';

@@ -1,8 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './HomeScreen';
-import Init from './Init';
-import TestScreen from './TestScreen';
+// import Init from './Init';
 
 const Stack = createStackNavigator();
 const Default_Screen_Options = ({ route, navigation }) => {
@@ -23,7 +22,6 @@ const StackNavigator = () => (
     screenOptions={Default_Screen_Options}>
     <Stack.Screen name="Home" component={HomeScreen} />
     {/* <Stack.Screen name="Init" component={Init} /> */}
-    <Stack.Screen name="TestScreen" component={TestScreen} />
   </Stack.Navigator>
 );
 
