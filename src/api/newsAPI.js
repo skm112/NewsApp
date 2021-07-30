@@ -20,8 +20,6 @@ export const getNewsList = (params) => {
     from: formattedDate(params.dateFrom),
     to: formattedDate(params.dateTo),
   };
-  console.log('params ax');
-  console.log('axios', paramOptions);
   return axios.request({
     method: 'GET',
     url: 'https://newsapi.org/v2/everything',

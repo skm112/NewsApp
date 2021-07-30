@@ -28,10 +28,8 @@ const reducer = (state = initialState, action) => {
     case FETCH_SUCCESS:
       const { totalResults, articles } = action.payload;
       if (state.currentPage === 0) {
-        console.log('success 1',action.payload)
         storeDataByKey('articles', articles);
       }
-      console.log('success 2')
       return {
         ...state,
         loading: false,

@@ -41,7 +41,6 @@ const HomeScreen = () => {
   }, [dispatch, dateFrom, dateTo]);
 
   const onRefresh = () => {
-    console.log('refreshed');
     disableFetch.current = true;
     setDateFrom(initialDate);
     setDateTo(initialDate);

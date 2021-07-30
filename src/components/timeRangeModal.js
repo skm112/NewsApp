@@ -21,7 +21,6 @@ class ModalDatePicker extends Component {
   };
 
   setSelectedDate = (date) => {
-    console.log(date);
     this.setState({ ...this.state, selectedDate: date });
   };
 

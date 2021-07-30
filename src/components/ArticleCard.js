@@ -9,7 +9,6 @@ const { width, height } = Dimensions.get('window');
 const WIDTH = width;
 class Article extends Component {
   render() {
-    // console.log(this.props);
     const time = moment(this.props.date).fromNow();
 
     return (
