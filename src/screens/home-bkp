@@ -1,0 +1,130 @@
+/* eslint-disable react-native/no-inline-styles */
+import React, { useState, useEffect, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  View,
+  FlatList,
+  StyleSheet,
+  ActivityIndicator,
+  Image,
+  Text,
+  RefreshControl,
+} from 'react-native';
+
+import { fetchNewsList, refreshNewsList } from '../redux/actions/api';
+
+const HomeScreen = () => {
+  const dispatch = useDispatch();
+  const apiStates = useSelector((state) => state.api);
+  console.log('state===>', apiStates);
+
+  useEffect(() => {
+    console.log('useEffect dispatch(fetchNewsList());');
+    dispatch(fetchNewsList());
+  }, [dispatch]);
+
+  const onRefresh = () => {
+    dispatch(refreshNewsList());
+    // alert('refreshed');
+  };
+
+  const renderFooter = () => {
+    if (!apiStates.loading) {
+      return null;
+    }
+    return <ActivityIndicator size="large" color="#0000ff" />;
+  };
+
+  const handleLoadMore = (data) => {
+    console.log('+++++++++++++++++Handle LoadMore+++++++++++++++++', data);
+    if (apiStates.articles.length < 100 && !apiStates.loading) {
+      dispatch(fetchNewsList());
+    }
+  };
+  const renderSeparator = () => {
+    return (
+      <View
+        style={{
+          height: 10,
+          width: '100%',
+          backgroundColor: '#CED0CE',
+        }}
+      />
+    );
+  };
+  return (
+    <View style={{  }}>
+      <FlatList
+        data={apiStates.articles}
+        keyExtractor={(item, index) => index.toString()}
+        ListFooterComponent={renderFooter}
+        ListFooterComponentStyle={{ height: 50, backgroundColor: 'red' }}
+        ItemSeparatorComponent={renderSeparator}
+        // enableEmptySections={true}
+        renderItem={({ item }) => (
+          <View
+            style={{
+              height: 140,
+              flexDirection: 'row',
+              padding: 15,
+              alignItems: 'center',
+            }}>
+            <View style={{ flex: 1 }}>
+              <Image
+                source={{ uri: item.urlToImage }}
+                style={{
+                  height: 100,
+                  width: 100,
+                  marginRight: 10,
+                }}
+              />
+            </View>
+            <View style={{ flex: 2 }}>
+              <Text
+                style={{
+                  flex: 1,
+                  textAlign: 'left',
+                  backgroundColor: 'gray',
+                  fontSize: 18,
+                  alignItems: 'center',
+                  color: '#65A7C5',
+                }}
+                ellipsizeMode="tail">
+                {item.title}
+              </Text>
+              <Text
+                style={{
+                  backgroundColor: 'green',
+                  flex: 1,
+                  fontSize: 18,
+                  alignItems: 'center',
+                  color: '#65A7C5',
+                }}
+                ellipsizeMode="tail">
+                {item.content}
+              </Text>
+            </View>
+          </View>
+        )}
+        onEndReachedThreshold={0.4}
+        onEndReached={handleLoadMore}
+        // refreshControl={
+        //   <RefreshControl
+        //     refreshing={apiStates.isRefresh}
+        //     onRefresh={onRefresh}
+        //   />
+        // }
+      />
+    </View>
+  );
+};
+
+export default HomeScreen;
+
+const styles = StyleSheet.create({
+  center: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
